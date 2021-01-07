@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         leetcode-helper
 // @namespace    https://github.com/ZimoLoveShuang/leetcode-helper
-// @version      0.2
+// @version      0.3
 // @description  parse leetcode problems from html to markdown
 // @author       zimo
 // @match        https://leetcode-cn.com/problems/*
@@ -19,6 +19,7 @@
     // Your code here...
     const window = unsafeWindow;
     const description = '.description__2b0C';
+    var content = '';
 
     String.prototype.replaceAll = function (s1, s2) {
         return this.replace(new RegExp(s1, "gm"), s2);
@@ -32,44 +33,9 @@
         var difficulty = '难度：' + $('#question-detail-main-tabs > div.tab-pane__1SHj.css-12hreja-TabContent.e16udao5 > div > div.css-xfm0cl-Container.eugt34i0 > div > span:nth-child(2)').text();
         // 内容Dom
         var contentDom = $('#question-detail-main-tabs > div.tab-pane__1SHj.css-12hreja-TabContent.e16udao5 > div > div.content__1Y2H > div');
-        var content = '';
         // 遍历内容Dom，逐个处理
         contentDom.children().each(function () {
-            var element = $(this)[0];
-            switch (element.tagName) {
-                case "P":
-                    var html = '\n';
-                    html += handleHtml(element.innerHTML);
-                    html += '\n';
-                    content += html;
-                    break;
-                case "PRE":
-                    var html = '\n```\n' + element.innerText + '\n```\n\n';
-                    content += html;
-                    break;
-                case "OL":
-                    var html = '\n';
-                    $(this).children().each(function (index) {
-                        html += (index + 1) + '. ' + handleHtml($(this).html()) + '\n';
-                    });
-                    html += '\n';
-                    content += html
-                    break;
-                case "UL":
-                    var html = '\n';
-                    $(this).children().each(function () {
-                        html += '- ' + handleHtml($(this).html()) + '\n';
-                    });
-                    html += '\n';
-                    content += html
-                    break;
-                default:
-                    console.log('暂时未处理的内容，看到这个日志，请提issues');
-                    console.log(element.tagName);
-                    console.log(element);
-                    break;
-            }
-            // console.log($(this).text())
+            solove($(this));
         });
         // console.log(title);
         // console.log(difficulty);
@@ -88,6 +54,51 @@
         });
         // console.log(contentDom[0].outerHTML)
     });
+
+    function solove(dom) {
+        var element = dom[0];
+        switch (element.tagName) {
+            case "P":
+                var html = '\n';
+                html += handleHtml(element.innerHTML);
+                html += '\n';
+                content += html;
+                break;
+            case "PRE":
+                var html = '\n```\n' + element.innerText + '\n```\n\n';
+                content += html;
+                break;
+            case "OL":
+                var html = '\n';
+                dom.children().each(function (index) {
+                    html += (index + 1) + '. ' + handleHtml($(this).html()) + '\n';
+                });
+                html += '\n';
+                content += html
+                break;
+            case "UL":
+                var html = '\n';
+                dom.children().each(function () {
+                    html += '- ' + handleHtml($(this).html()) + '\n';
+                });
+                html += '\n';
+                content += html
+                break;
+            case "DIV":
+                dom.children().each(function () {
+                    solove($(this));
+                });
+                break;
+            default:
+                console.log(element.outerHTML);
+                console.log($(element));
+                var html = '\n';
+                html += new String(element.outerHTML);
+                html += '\n';
+                content += html
+                break;
+        }
+    }
 
     /**
      * html转markdown

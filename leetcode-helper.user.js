@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         leetcode-helper
 // @namespace    https://github.com/ZimoLoveShuang/leetcode-helper
-// @version      0.3
+// @version      0.4
 // @description  parse leetcode problems from html to markdown
 // @author       zimo
 // @match        https://leetcode-cn.com/problems/*
@@ -25,23 +25,24 @@
         return this.replace(new RegExp(s1, "gm"), s2);
     };
 
-    // 等待内容渲染完整之后才开始解析
-    waitForKeyElements(description, function () {
-        // 题目
-        var title = $('#question-detail-main-tabs > div.tab-pane__1SHj.css-12hreja-TabContent.e16udao5 > div > div.css-xfm0cl-Container.eugt34i0 > h4').text();
-        // 难度
-        var difficulty = '难度：' + $('#question-detail-main-tabs > div.tab-pane__1SHj.css-12hreja-TabContent.e16udao5 > div > div.css-xfm0cl-Container.eugt34i0 > div > span:nth-child(2)').text();
-        // 内容Dom
-        var contentDom = $('#question-detail-main-tabs > div.tab-pane__1SHj.css-12hreja-TabContent.e16udao5 > div > div.content__1Y2H > div');
-        // 遍历内容Dom，逐个处理
-        contentDom.children().each(function () {
-            solove($(this));
-        });
-        // console.log(title);
-        // console.log(difficulty);
-        // console.log(content);
-        // 注入菜单
-        GM_registerMenuCommand("复制LeetCode题目为markdown，并存入剪切板", function () {
+    // 注入菜单
+    GM_registerMenuCommand("复制LeetCode题目为markdown，并存入剪切板", function () {
+        // 等待内容渲染完整之后才开始解析
+        waitForKeyElements(description, function () {
+            // 题目
+            var title = $('#question-detail-main-tabs > div.tab-pane__1SHj.css-12hreja-TabContent.e16udao5 > div > div.css-xfm0cl-Container.eugt34i0 > h4').text();
+            // 难度
+            var difficulty = '难度：' + $('#question-detail-main-tabs > div.tab-pane__1SHj.css-12hreja-TabContent.e16udao5 > div > div.css-xfm0cl-Container.eugt34i0 > div > span:nth-child(2)').text();
+            // 内容Dom
+            var contentDom = $('#question-detail-main-tabs > div.tab-pane__1SHj.css-12hreja-TabContent.e16udao5 > div > div.content__1Y2H > div');
+            // 遍历内容Dom，逐个处理
+            contentDom.children().each(function () {
+                solove($(this));
+            });
+            // console.log(title);
+            // console.log(difficulty);
+            // console.log(content);
+            // console.log(contentDom[0].outerHTML);
             var str = title + '\n\n' + difficulty + '\n' + content + '\n' + '来源：力扣（LeetCode）\n' +
                 '链接：' + window.location.href + '\n' +
                 '著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。';
@@ -52,11 +53,11 @@
                 title: "复制成功",
             });
         });
-        // console.log(contentDom[0].outerHTML)
     });
 
     function solove(dom) {
         var element = dom[0];
+        // console.log(element);
         switch (element.tagName) {
             case "P":
                 var html = '\n';

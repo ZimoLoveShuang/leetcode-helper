@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         leetcode-helper
 // @namespace    https://github.com/ZimoLoveShuang/leetcode-helper
-// @version      0.4
+// @version      0.5
 // @description  parse leetcode problems from html to markdown
 // @author       zimo
 // @match        https://leetcode-cn.com/problems/*
@@ -117,9 +117,9 @@
         html = html.replaceAll(/&gt;/, '>');
         // 加粗
         html = html.replaceAll(/<strong>/, '**');
-        html = html.replaceAll(/<\/strong>/, '** ');
+        html = html.replaceAll(/<\/strong>/, '**');
         html = html.replaceAll(/<b>/, '**');
-        html = html.replaceAll(/<\/b>/, '** ');
+        html = html.replaceAll(/<\/b>/, '**');
         // 去掉空的加粗块
         html = html.replaceAll(/\*\*\s+\*\*\s+/, '');
         // 去掉行内代码块

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         leetcode-helper
 // @namespace    https://github.com/ZimoLoveShuang/leetcode-helper
-// @version      0.5
+// @version      0.6
 // @description  parse leetcode problems from html to markdown
 // @author       zimo
 // @match        https://leetcode-cn.com/problems/*
@@ -30,11 +30,11 @@
         // 等待内容渲染完整之后才开始解析
         waitForKeyElements(description, function () {
             // 题目
-            var title = $('#question-detail-main-tabs > div.tab-pane__1SHj.css-12hreja-TabContent.e16udao5 > div > div.css-xfm0cl-Container.eugt34i0 > h4').text();
+            var title = $('#question-detail-main-tabs > div.css-fwb2av-layer1.css-12hreja-TabContent.e16udao5 > div > div.css-xfm0cl-Container.eugt34i0 > h4').text();
             // 难度
-            var difficulty = '难度：' + $('#question-detail-main-tabs > div.tab-pane__1SHj.css-12hreja-TabContent.e16udao5 > div > div.css-xfm0cl-Container.eugt34i0 > div > span:nth-child(2)').text();
+            var difficulty = '难度：' + $('#question-detail-main-tabs > div.css-fwb2av-layer1.css-12hreja-TabContent.e16udao5 > div > div.css-xfm0cl-Container.eugt34i0 > div > span:nth-child(2)').text();
             // 内容Dom
-            var contentDom = $('#question-detail-main-tabs > div.tab-pane__1SHj.css-12hreja-TabContent.e16udao5 > div > div.content__1Y2H > div');
+            var contentDom = $('#question-detail-main-tabs > div.css-fwb2av-layer1.css-12hreja-TabContent.e16udao5 > div > div.content__1Y2H > div');
             // 遍历内容Dom，逐个处理
             contentDom.children().each(function () {
                 solove($(this));

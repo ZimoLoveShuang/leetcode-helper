@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         leetcode-helper
 // @namespace    https://github.com/ZimoLoveShuang/leetcode-helper
-// @version      0.7
+// @version      0.8
 // @description  parse leetcode problems from html to markdown
 // @author       zimo
 // @match        https://leetcode-cn.com/problems/*
@@ -107,30 +107,58 @@
      * @returns {void|*}
      */
     function handleHtml(html) {
-        // 空格
-        html = html.replaceAll(/&nbsp;/, ' ');
-        // 换行
-        // html = html.replaceAll(/<br\s*(\/)*>/, '\n\n');
-        // 小于符号
-        html = html.replaceAll(/&lt;/, '<');
-        // 大于符号
-        html = html.replaceAll(/&gt;/, '>');
-        // 加粗
-        html = html.replaceAll(/<strong>/, '**');
-        html = html.replaceAll(/<\/strong>/, '**');
-        html = html.replaceAll(/<b>/, '**');
-        html = html.replaceAll(/<\/b>/, '**');
-        // 去掉空的加粗块
-        html = html.replaceAll(/\*\*\s+\*\*\s+/, '');
-        // 去掉行内代码块
-        html = html.replaceAll(/<[/]{0,1}code>/, '');
-        // 下标
-        // html = html.replaceAll(/<sub>/, '$_{');
-        // html = html.replaceAll(/<\/sub>/, '}$');
+        try {
+            // 空格
+            html = html.replaceAll(/&nbsp;/, ' ');
+            // 换行
+            // html = html.replaceAll(/<br\s*(\/)*>/, '\n\n');
+            // 小于符号
+            html = html.replaceAll(/&lt;/, '<');
+            // 大于符号
+            html = html.replaceAll(/&gt;/, '>');
+            // 加粗
+            html = html.replaceAll(/<strong>/, '**');
+            html = html.replaceAll(/<\/strong>/, '**');
+            html = html.replaceAll(/<b>/, '**');
+            html = html.replaceAll(/<\/b>/, '**');
+            // 去掉空的加粗块
+            html = html.replaceAll(/\*\*\s+\*\*\s+/, '');
+            // 去掉行内代码块
+            html = html.replaceAll(/<[/]{0,1}code>/, '');
+            // 下标
+            // html = html.replaceAll(/<sub>/, '$_{');
+            // html = html.replaceAll(/<\/sub>/, '}$');
 
-        // 上标
-        // html = html.replaceAll(/<sup>/, '$^{');
-        // html = html.replaceAll(/<\/sup>/, '}$');
+            // 上标
+            // html = html.replaceAll(/<sup>/, '$^{');
+            // html = html.replaceAll(/<\/sup>/, '}$');
+        } catch (err) {
+            console.log(err)
+            // 空格
+            html = html.replaceAll('&nbsp', ' ');
+            // 换行
+            // html = html.replaceAll('<br\s*(\/)*>', '\n\n');
+            // 小于符号
+            html = html.replaceAll('&lt;', '<');
+            // 大于符号
+            html = html.replaceAll('&gt;', '>');
+            // 加粗
+            html = html.replaceAll('<strong>', '**');
+            html = html.replaceAll('<\/strong>', '**');
+            html = html.replaceAll('<b>', '**');
+            html = html.replaceAll('<\/b>', '**');
+            // 去掉空的加粗块
+            html = html.replaceAll('\*\*\s+\*\*\s+', '');
+            // 去掉行内代码块
+            html = html.replaceAll('<[/]{0,1}code>', '');
+            // 下标
+            // html = html.replaceAll('<sub>', '$_{');
+            // html = html.replaceAll('<\/sub>', '}$');
+
+            // 上标
+            // html = html.replaceAll('<sup>', '$^{');
+            // html = html.replaceAll('<\/sup>', '}$');
+        }
 
         return html
     }

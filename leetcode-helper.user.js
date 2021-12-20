@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         leetcode-helper
 // @namespace    https://github.com/ZimoLoveShuang/leetcode-helper
-// @version      0.8
+// @version      0.9
 // @description  parse leetcode problems from html to markdown
 // @author       zimo
 // @match        https://leetcode-cn.com/problems/*
@@ -135,7 +135,7 @@
         } catch (err) {
             console.log(err)
             // 空格
-            html = html.replaceAll('&nbsp', ' ');
+            html = html.replaceAll('&nbsp;', ' ');
             // 换行
             // html = html.replaceAll('<br\s*(\/)*>', '\n\n');
             // 小于符号
